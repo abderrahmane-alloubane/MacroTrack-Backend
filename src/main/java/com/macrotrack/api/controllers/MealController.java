@@ -128,4 +128,29 @@ public class MealController {
 
         return response;
     }
+    @GetMapping("/GetWeekly")
+    public ResponseEntity<?> GetWeeklyData(){
+
+        return ResponseEntity.ok(Map.of(505, "error"));
+    }
+
+    @GetMapping("/weekly")
+    public ResponseEntity<?> getWeeklySummary(Authentication auth) {
+        User user = userRepository.findById(UUID.fromString(auth.getName())).orElse(null);
+        if (user == null) return ResponseEntity.status(401).build();
+
+        var now = java.time.LocalDate.now();
+        var monday = now.with(java.time.DayOfWeek.MONDAY);
+        List<DailySummaryResponse> week = new ArrayList<>();
+
+        for (int i = 0; i < 7; i++) {
+            var date = monday.plusDays(i);
+            String dateStr = date.toString();
+            List<MealEntry> entries =
+                mealEntryRepository.findByUserIdAndDateOrderByCreatedAt(user.getId(), dateStr);
+            week.add(buildSummary(user, dateStr, entries));
+        }
+
+        return ResponseEntity.ok(week);
+    }
 }
