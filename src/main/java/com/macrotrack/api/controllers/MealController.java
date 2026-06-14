@@ -130,7 +130,6 @@ public class MealController {
     }
     @GetMapping("/GetWeekly")
     public ResponseEntity<?> GetWeeklyData(){
-
         return ResponseEntity.ok(Map.of(505, "error"));
     }
 

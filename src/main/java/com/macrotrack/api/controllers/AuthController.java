@@ -40,13 +40,17 @@ public class AuthController {
         if (request.getDailyCalorieGoal() != null) {
             user.setDailyCalorieGoal(request.getDailyCalorieGoal());
         }
+        if (request.getProteinRatio() != null) user.setProteinRatio(request.getProteinRatio());
+        if (request.getFatRatio() != null) user.setFatRatio(request.getFatRatio());
+        if (request.getCarbsRatio() != null) user.setCarbsRatio(request.getCarbsRatio());
         userRepository.save(user);
 
         String token = jwtUtil.generateToken(
             user.getId().toString(), user.getEmail());
         return ResponseEntity.ok(new AuthResponse(
             token, user.getId().toString(), user.getEmail(),
-            user.getName(), user.getDailyCalorieGoal()));
+            user.getName(), user.getDailyCalorieGoal(),
+            user.getProteinRatio(), user.getFatRatio(), user.getCarbsRatio()));
     }
 
     @PostMapping("/login")
@@ -60,6 +64,7 @@ public class AuthController {
             user.getId().toString(), user.getEmail());
         return ResponseEntity.ok(new AuthResponse(
             token, user.getId().toString(), user.getEmail(),
-            user.getName(), user.getDailyCalorieGoal()));
+            user.getName(), user.getDailyCalorieGoal(),
+            user.getProteinRatio(), user.getFatRatio(), user.getCarbsRatio()));
     }
 }

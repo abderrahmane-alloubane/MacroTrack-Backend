@@ -3,10 +3,8 @@ package com.macrotrack.api.dto;
 import lombok.Data;
 
 @Data
-public class SignupRequest {
+public class UpdateUserRequest {
     private String name;
-    private String email;
-    private String password;
     private Integer dailyCalorieGoal;
     private Double proteinRatio;
     private Double fatRatio;
